@@ -1,6 +1,6 @@
 <template>
     <div>
-        我的信息
+        绑定设置
     </div>
 </template>
 <script>

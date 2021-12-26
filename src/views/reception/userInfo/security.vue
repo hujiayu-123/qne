@@ -1,6 +1,6 @@
 <template>
     <div>
-        我的信息
+        账号安全
     </div>
 </template>
 <script>

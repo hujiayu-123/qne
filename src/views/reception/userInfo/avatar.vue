@@ -1,6 +1,6 @@
 <template>
     <div>
-        我的信息
+        我的头像
     </div>
 </template>
 <script>

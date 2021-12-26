@@ -39,9 +39,30 @@ const routes = [
                     {
                         path: 'user',
                         meta: {
-                            title: '去哪儿-用户中心-个人中心'
+                            title: '去哪儿-用户中心-我的信息'
                         },
                         component: () => import(/* webpackChunkName: "user" */ '../views/reception/userInfo/user.vue')
+                    },
+                    {
+                        path: 'avatar',
+                        meta: {
+                            title: '去哪儿-用户中心-我的头像'
+                        },
+                        component: () => import(/* webpackChunkName: "avatar" */ '../views/reception/userInfo/avatar.vue')
+                    },
+                    {
+                        path: 'security',
+                        meta: {
+                            title: '去哪儿-用户中心-账号安全'
+                        },
+                        component: () => import(/* webpackChunkName: "security" */ '../views/reception/userInfo/security.vue')
+                    },
+                    {
+                        path: 'sns',
+                        meta: {
+                            title: '去哪儿-用户中心-绑定设置'
+                        },
+                        component: () => import(/* webpackChunkName: "sns" */ '../views/reception/userInfo/sns.vue')
                     }
                 ]
             }

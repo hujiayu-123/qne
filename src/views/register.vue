@@ -192,7 +192,7 @@
         .box-r {
             width: 40%;
             height: 100%;
-            background: url(../assets/images/box-bg.jpeg)no-repeat;
+            background: url(../assets/images/box-bg.jpg)no-repeat;
             background-size: cover;
             text-align: center;
             position: relative;
