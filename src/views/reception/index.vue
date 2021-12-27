@@ -4,8 +4,7 @@
             <div class="header flex-b">
                 <div class="nav flex-m">
                     <div class="logo flex-m">
-                        <img class="logo-img" :src="require('@/assets/images/logo.png')" alt="logo" />
-                        <img class="logo-txt" :src="require('@/assets/images/logo-txt.png')" alt="logo-txt" />
+                        <img class="logo-img" :src="require('@/assets/images/logo-2.png')" alt="logo" />
                     </div>
                     <div class="nav-list flex-m">
                         <router-link tag="div" to="/home" class="nav-item nav-item-style-b flex-m">
@@ -69,8 +68,7 @@
                 font-size: 25px;
 
                 .logo-img {
-                    width: 50px;
-                    margin-right: 10px;
+                    width: 160px;
                 }
 
                 .logo-txt {

@@ -2,8 +2,8 @@
     <div class="admin">
         <el-header>
             <div class="flex-b">
-                <div class="logo-img">
-                    <img class="logo-img" :src="require('@/assets/images/logo.png')" alt="logo" />
+                <div>
+                    <img class="logo-img" :src="require('@/assets/images/logo-3.png')" alt="logo" />
                 </div>
                 <div>
                     <el-dropdown @command="handleToLink">
@@ -84,7 +84,7 @@
         }
 
         .logo-img {
-            width: 45px;
+            width: 150px;
         }
     }
 </style>

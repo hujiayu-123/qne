@@ -76,10 +76,8 @@
                 margin: 0 auto;
             }
 
-
-
             .logo-img {
-                width: 30px;
+                width: 40px;
             }
 
             .el-dropdown {

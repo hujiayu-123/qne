@@ -193,7 +193,7 @@
             width: 40%;
             height: 100%;
             background: url(../assets/images/box-bg.jpg)no-repeat;
-            background-size: cover;
+            background-size: contain;
             text-align: center;
             position: relative;
 
