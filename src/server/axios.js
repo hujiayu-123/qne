@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import { Loading } from 'element-ui'
+import errorHandle from './errorHandle'
 import publicConfig from '../config/index'
 
 let loadingInstance = null
@@ -74,7 +75,7 @@ class HttpRequest {
             if (res.status === 200) {
                 //promise.resolve
                 return new Promise((resolve) => {
-                    if(res.data.code === 200) {
+                    if(res.data.code == 0) {
                         resolve(res.data)
                     }else {
                         Message({

@@ -38,17 +38,27 @@
     </div>
 </template>
 <script>
+    import api from "@/server/api.js";
     export default {
         data() {
+            var validatePhone = (rule, value, callback) => {
+                let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                if (value === "") {
+                    callback(new Error("请输入您的手机号"));
+                } else if (!myreg.test(value)) {
+                    callback(new Error("请输入正确的手机号"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm: {
                     userName: '',
-                    paddWord: ''
+                    passWord: ''
                 },
                 rules: {
                     userName: [{
-                        required: true,
-                        message: '请输入您的手机号',
+                        validator: validatePhone,
                         trigger: 'blur'
                     }, ],
                     passWord: [{
@@ -67,9 +77,29 @@
                 })
             },
             handleLogin() {
-                // this.$refs.ruleForm.validate(valid => {
-                //     if (valid) {}
-                // })
+                this.$refs.ruleForm.validate(valid => {
+                    if (valid) {
+                        let {
+                            userName,
+                            passWord
+                        } = this.ruleForm
+                        api.login({
+                            mobile: userName,
+                            password: passWord
+                        }).then((res) => {
+                            if (res.code == 0) {
+                                if (!res.data.account) {
+                                    res.data.account = 'User' + res.data.id
+                                }
+                                localStorage.setItem('token', res.token)
+                                localStorage.setItem('userInfo', JSON.stringify(res.data))
+                                this.$router.push({
+                                    path: '/'
+                                })
+                            }
+                        })
+                    }
+                })
             },
             handleToRegister() {
                 this.$router.push({
@@ -89,7 +119,7 @@
 
     .box-wrap {
         width: 730px;
-        height: 434px;
+        height: 434px !important;
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 3px 3px rgba(0, 0, 0, .4);
@@ -178,7 +208,7 @@
             width: 40%;
             height: 100%;
             background: url(../assets/images/box-bg.jpg)no-repeat;
-            background-size: contain;
+            background-size: cover;
             text-align: center;
             position: relative;
 

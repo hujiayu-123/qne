@@ -14,23 +14,32 @@
                             <div>去旅行
                                 <i class="iconfont icon-xiala"></i>
                             </div>
-                            <div class="nav-item-list">
-                                <div>自由行
-                                    <i class="iconfont icon-hot"></i>
+                            <div class="nav-item-list" v-if="isList">
+                                <div v-for="(item,index) in typeList" :key="index" @click="handleToList(item.value)">
+                                    {{item.name}}
+                                    <i v-if="index==0" class="iconfont icon-hot"></i>
                                 </div>
-                                <div>跟团游</div>
-                                <div>当地游</div>
                             </div>
                         </router-link>
                     </div>
                 </div>
+                <div v-if="isSearch" :class="isSearchStyle?'header-search header-search-a':'header-search'">
+                    <el-input @focus="handleFocus" @blur="handleBlur" v-model="keyword" class="input-with-select"
+                        @keyup.enter.native="handleToList('','scenicName')">
+                    </el-input>
+                    <i class="iconfont icon-sousuo"></i>
+                </div>
                 <div class="user flex-m">
-                    <AccountDropDown />
-                    <div @click="handleToLink('/login')">登录</div>
-                    <span class="hr"></span>
-                    <div @click="handleToLink('/register')">注册</div>
-                    <span class="hr"></span>
-                    <div @click="handleToLink('/admin')">管理中心</div>
+                    <AccountDropDown v-if="isLogin" />
+                    <template v-else>
+                        <div @click="handleToLink('/login')">登录</div>
+                        <span class="hr"></span>
+                        <div @click="handleToLink('/register')">注册</div>
+                    </template>
+                    <template v-if="userInfo.role == 2">
+                        <span class="hr"></span>
+                        <div @click="handleToLink('/admin')">管理中心</div>
+                    </template>
                 </div>
             </div>
 
@@ -42,11 +51,73 @@
 </template>
 <script>
     import AccountDropDown from "../../components/AccountDropDown";
+    import {
+        typeList
+    } from "@/utils/filter.js";
     export default {
         components: {
             AccountDropDown
         },
+        data() {
+            return {
+                isLogin: false,
+                userInfo: {},
+                isList: true,
+                typeList: typeList,
+                keyword: '',
+                isSearchStyle: false,
+                isSearch: true
+            }
+        },
+        watch: {
+            $route: {
+                handler() {
+                    this.handleIsRoute()
+                },
+                deep: true
+            }
+        },
+        mounted() {
+            this.handleIsRoute()
+            let token = localStorage.getItem('token')
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            if (token) {
+                this.isLogin = true
+            } else {
+                this.isLogin = false
+            }
+        },
         methods: {
+            handleIsRoute() {
+                let routeInfo = this.$route
+                this.keyword = routeInfo.query.scenicName
+                if (routeInfo.path == '/sales') {
+                    this.isList = false
+                } else {
+                    this.isList = true
+                }
+                if (routeInfo.path == '/home') {
+                    this.isSearch = false
+                } else {
+                    this.isSearch = true
+                }
+            },
+            handleFocus() {
+                this.isSearchStyle = true
+            },
+            handleBlur() {
+                this.isSearchStyle = false
+            },
+            handleToList(type, name) {
+                let routeUrl = this.$router.resolve({
+                    path: "/sales",
+                    query: {
+                        grade: type,
+                        scenicName: name == 'scenicName' ? this.keyword : ''
+                    }
+                });
+                window.open(routeUrl.href, "_blank");
+            },
             handleToLink(link) {
                 this.$router.push({
                     path: link
@@ -173,6 +244,41 @@
                     background: @theme-color;
                     color: #fff;
                 }
+            }
+
+            .header-search {
+                position: relative;
+                width: 150px;
+                transition: width .8s;
+
+                .el-input__inner {
+                    border: 1px solid #efefef;
+                    background-color: #efefef;
+                }
+
+                .iconfont {
+                    position: absolute;
+                    right: 10px;
+                    font-size: 25px;
+                    line-height: 40px;
+                    color: #999;
+                    font-weight: bold;
+                }
+            }
+
+            .header-search-a {
+                width: 350px;
+
+                .el-input__inner {
+                    border-color: @theme-color;
+                    box-shadow: 0 0 3px rgba(140, 190, 28, 0.2);
+                    background-color: #fff;
+                }
+
+                .iconfont {
+                    color: @theme-color;
+                }
+
             }
 
             .user {

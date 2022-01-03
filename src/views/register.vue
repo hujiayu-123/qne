@@ -6,6 +6,12 @@
                     <el-form-item prop="userName">
                         <el-input v-model="ruleForm.userName" placeholder="您的手机号"></el-input>
                     </el-form-item>
+                    <el-form-item prop="code" class="code-box">
+                        <el-input v-model="ruleForm.code" placeholder="您的验证码"></el-input>
+                        <div :class="isSend?'code-btn':'code-btn cur'" @click="isSend?'':handleSendCode()">
+                            {{isSend?timer+'s':'获取验证码'}}
+                        </div>
+                    </el-form-item>
                     <el-form-item prop="passWord">
                         <el-input type="password" v-model="ruleForm.passWord" placeholder="您的密码"></el-input>
                     </el-form-item>
@@ -39,6 +45,7 @@
     </div>
 </template>
 <script>
+    import api from "@/server/api.js";
     export default {
         data() {
             var validatePass = (rule, value, callback) => {
@@ -50,16 +57,34 @@
                     callback();
                 }
             };
+            var validatePhone = (rule, value, callback) => {
+                let myreg = /^[1][3,4,5,7,8][0-9]{9}$/;
+                if (value === "") {
+                    callback(new Error("请输入您的手机号"));
+                } else if (!myreg.test(value)) {
+                    callback(new Error("请输入正确的手机号"));
+                } else {
+                    callback();
+                }
+            };
             return {
                 ruleForm: {
                     userName: '',
+                    code: '',
                     paddWord: '',
                     okPassWord: ''
                 },
+                timer: 60,
+                isSend: false,
+                verificationCode: '',
                 rules: {
                     userName: [{
+                        validator: validatePhone,
+                        trigger: 'blur'
+                    }, ],
+                    code: [{
                         required: true,
-                        message: '请输入您的手机号',
+                        message: '请输入您的验证码',
                         trigger: 'blur'
                     }, ],
                     passWord: [{
@@ -81,10 +106,65 @@
                     message: '该功能暂未开发 ~'
                 })
             },
+            // 接收验证码
+            handleSendCode() {
+                let {
+                    userName
+                } = this.ruleForm
+                this.$refs.ruleForm.validateField('userName', (valid) => {
+                    if (!valid) {
+                        this.isSend = true
+                        this.handleCountDown()
+                        api.getCode({
+                            mobile: userName
+                        }).then((res) => {
+                            if (res.code == 0) {
+                                this.verificationCode = res.data
+                            }
+                        })
+                    }
+                })
+
+            },
+            // 获取验证码倒计时
+            handleCountDown() {
+                let second = this.timer
+                second = Number(second) - 1
+                setTimeout(() => {
+                    this.timer = second
+                    if (second === -1) {
+                        this.isSend = false
+                        this.timer = 60
+                    } else {
+                        this.handleCountDown()
+                    }
+                }, 1000)
+            },
             handleRegister() {
-                // this.$refs.ruleForm.validate(valid => {
-                //     if (valid) {}
-                // })
+                this.$refs.ruleForm.validate(valid => {
+                    if (valid) {
+                        let {
+                            userName,
+                            code,
+                            okPassWord
+                        } = this.ruleForm
+                        if (code == this.verificationCode) {
+                            api.register({
+                                mobile: userName,
+                                password: okPassWord,
+                                role: 1
+                            }).then((res) => {
+                                if (res.code == 0) {
+                                    this.$message({
+                                        type: 'warning',
+                                        message: res.msg
+                                    })
+                                    this.handleToLogin()
+                                }
+                            })
+                        }
+                    }
+                })
             },
             handleToLogin() {
                 this.$router.push({
@@ -104,7 +184,7 @@
 
     .box-wrap {
         width: 730px;
-        height: 434px;
+        height: 434px !important;
         background-color: #fff;
         border-radius: 8px;
         box-shadow: 0 3px 3px rgba(0, 0, 0, .4);
@@ -183,6 +263,28 @@
                 cursor: pointer;
             }
 
+            .code-box {
+                .el-input {
+                    width: 72%;
+                }
+
+                .code-btn {
+                    width: 90px;
+                    height: 40px;
+                    background: @theme-color;
+                    color: #fff;
+                    float: right;
+                    text-align: center;
+                    border-radius: 4px;
+                    opacity: .8;
+                }
+
+                .cur {
+                    cursor: pointer;
+                    opacity: 1;
+                }
+            }
+
             .el-divider__text {
                 color: @info-color;
                 font-size: 12px;
@@ -193,7 +295,7 @@
             width: 40%;
             height: 100%;
             background: url(../assets/images/box-bg.jpg)no-repeat;
-            background-size: contain;
+            background-size: cover;
             text-align: center;
             position: relative;
 

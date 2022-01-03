@@ -8,7 +8,7 @@
                 <div>
                     <el-dropdown @command="handleToLink">
                         <span class="el-dropdown-link">
-                            admin<i class="el-icon-arrow-down el-icon--right"></i>
+                            {{userInfo.account}}<i class="el-icon-arrow-down el-icon--right"></i>
                         </span>
                         <el-dropdown-menu slot="dropdown">
                             <el-dropdown-item command="/home">返回前台</el-dropdown-item>
@@ -22,7 +22,7 @@
             <el-aside width="200px">
                 <el-row>
                     <el-col :span="24">
-                        <el-menu default-active="0" class="el-menu-vertical-demo" background-color="#545c64"
+                        <el-menu :default-active="activeRouter" class="el-menu-vertical-demo" background-color="#545c64"
                             text-color="#fff" active-text-color="#8CBE1C" router>
 
                             <el-menu-item index="/admin/release">
@@ -51,8 +51,21 @@
 </template>
 <script>
     export default {
+        data() {
+            return {
+                userInfo: {},
+                activeRouter: ''
+            }
+        },
+        mounted() {
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            this.activeRouter = this.$route.path
+        },
         methods: {
             handleToLink(link) {
+                if (link == '/login') {
+                    localStorage.clear()
+                }
                 this.$router.push({
                     path: link
                 })
