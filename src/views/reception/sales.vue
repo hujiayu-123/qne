@@ -99,7 +99,7 @@
                 <img :src="require('@/assets/images/null.png')" alt="">
             </div>
         </div>
-
+        <el-backtop target=".page-component__scroll .el-scrollbar__wrap"></el-backtop>
     </div>
 </template>
 <script>
@@ -278,8 +278,11 @@
 
                 .city {
                     position: relative;
+                    cursor: pointer;
 
                     &:hover {
+                        text-decoration: underline;
+
                         .city-list {
                             height: 400px;
                         }

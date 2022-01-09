@@ -141,6 +141,14 @@ const routes = [
         ]
     },
     {
+        path: '/visualizationDetail',
+        name: 'visualizationDetail',
+        meta: {
+            title: '去哪儿-可视化展示'
+        },
+        component: () => import(/* webpackChunkName: "visualizationDetail" */ '../views/admin/visualizationDetail.vue')
+    },
+    {
         path: '/login',
         name: 'login',
         meta: {
