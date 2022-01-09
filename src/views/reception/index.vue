@@ -80,7 +80,7 @@
         mounted() {
             this.handleIsRoute()
             let token = localStorage.getItem('token')
-            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
             if (token) {
                 this.isLogin = true
             } else {

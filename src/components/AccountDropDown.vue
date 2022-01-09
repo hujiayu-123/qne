@@ -22,7 +22,7 @@
             }
         },
         mounted() {
-            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
         },
         methods: {
             handleToLink(link) {

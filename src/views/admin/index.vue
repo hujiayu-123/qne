@@ -58,7 +58,7 @@
             }
         },
         mounted() {
-            this.userInfo = JSON.parse(localStorage.getItem('userInfo'))
+            this.userInfo = JSON.parse(localStorage.getItem('userInfo')) || {}
             this.activeRouter = this.$route.path
         },
         methods: {

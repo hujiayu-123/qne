@@ -160,7 +160,7 @@
                 ...this.filterParams,
                 ...routerParam
             }
-            this.cityHot = JSON.parse(localStorage.getItem('cityHot'))
+            this.cityHot = JSON.parse(localStorage.getItem('cityHot')) || []
             this.getList()
         },
         methods: {
