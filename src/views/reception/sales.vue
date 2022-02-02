@@ -183,6 +183,7 @@
             // 切换城市筛选
             handleGrade(val) {
                 this.filterParams.grade = val
+                this.dataList = []
                 this.getList()
             },
             // 获取城市数据
@@ -195,6 +196,7 @@
             // 切换城市筛选
             handleCity(val) {
                 this.filterParams.cityName = val
+                this.dataList = []
                 this.getList()
             },
             // 价格排序

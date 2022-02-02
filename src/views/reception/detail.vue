@@ -39,7 +39,7 @@
                     <div class="info-des-address">
                         <span class="des-title">景点地址：</span>
                         北京西山风景区南麓八大处公园
-                        <span class="font-color">
+                        <span class="font-color" @click="handleLink('link-4',3)">
                             <i class="iconfont icon-ditu"></i>
                             地图
                         </span>
@@ -54,12 +54,12 @@
                         <span class="des-title">精彩点评：</span>
                         今天休息来八大处打卡，还是人生中的第一次来，山不是很高，爬上去还行。不累，主要是上班太压抑，出来顺便散散心，门票10元
                     </div>
-                    <div class="info-des-eva-num">
+                    <div class="info-des-eva-num" @click="handleLink('link-3',2)">
                         <i class="iconfont icon-dianping"></i>
                         368条用户点评
                         <span class="font-color">查看</span>
                     </div>
-                    <div class="order-btn">
+                    <div class="order-btn" @click="handleToOrder">
                         马上下单
                     </div>
                     <div class="info-des-price flex-c">
@@ -77,16 +77,81 @@
                         <div :class="activeIndex==3?'active':''" @click="handleLink('link-4',3)">交通指南</div>
                     </div>
                     <div class="con-cons">
-                        <div id="link-1">
+                        <div class="link">
+                            <div class="link-wrap" id="link-1"></div>
                             <div class="title">
                                 <div class="icon">
                                     <i class="iconfont icon-xuzhi"></i>
                                 </div>
                                 预定须知
                             </div>
-                            <div class="con"></div>
+                            <div class="con">
+                                <div class="notice flex-m">
+                                    <div>
+                                        <img :src="require('@/assets/images/stop.png')" alt="">
+                                        <div>停车场</div>
+                                    </div>
+                                    <div>
+                                        <img :src="require('@/assets/images/no-cat.png')" alt="">
+                                        <div>禁止宠物入园</div>
+                                    </div>
+                                    <div>
+                                        <img :src="require('@/assets/images/wc.png')" alt="">
+                                        <div>公厕</div>
+                                    </div>
+                                    <div>
+                                        <img :src="require('@/assets/images/shop.png')" alt="">
+                                        <div>商店</div>
+                                    </div>
+                                </div>
+                                <div class="notice-tab flex-m">
+                                    <div class="notice-tab-title">{{title}}预定须知</div>
+                                    <div class="notice-tab-con">
+                                        <div class="martb10">
+                                            <div class="tab-title">
+                                                特惠政策
+                                            </div>
+                                        </div>
+                                        <div class="martb10">
+                                            <div class="tab-title">
+                                                温馨提示
+                                            </div>
+                                            <div class="mart5">
+                                                ①
+                                                {{title}}现已启动分时段全网预约，{{title}}限制一张身份证每个入园日最多可预订四张全价成人票，两张半价老人优惠票，两张学生/儿童优惠票，一张优惠对象预约票，且成人票、老人票或者学生/儿童票不可在一个订单中预订，且只能预订包括当天在内的7天的门票。给您带来不便，敬请谅解；
+                                            </div>
+                                            <div class="mart5">
+                                                ② 为保证入园顺利，预订时请务必填写真实姓名、手机号码号等信息；
+                                            </div>
+                                            <div class="mart5">
+                                                ③ 网络门票预订成功后，不得改期；如需改期，请申请取消订单后重新预订；
+                                            </div>
+                                            <div class="mart5">
+                                                ④ 网络预订票仅预约当天有效，游客可持预售登记的身份证及预订成功后收到的短信二维码快速入园。预订门票一经使用不可退订；
+                                            </div>
+                                            <div class="mart5">
+                                                ⑤ 预售门票在未使用的情况下，可申请退单。退单需整单退订，不得退订整单中部分门票；
+                                            </div>
+                                            <div class="mart5">
+                                                ⑥ 同一张身份证预订多笔订单的，建议使用短信二维码入园；
+                                            </div>
+                                            <div class="mart5">
+                                                ⑦ {{title}}门票价格严格执行国家价格规定， 为了您的合法权益，请从正规渠道购买景区门票，切勿相信景区门口黄牛及野导；
+                                            </div>
+                                            <div class="mart5">
+                                                ⑧ 淡季为1-3月、6月、11-12月；旺季为4-5月、7-10月；
+                                            </div>
+                                            <div class="mart5">
+                                                ⑨ 网上预订{{title}}门票不提供自动导游器，如有游客需要请到景区租赁，需自费。景区每逢半点和整点都有免费讲解服务。
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div id="link-2">
+                        <div class="link">
+                            <div class="link-wrap" id="link-2"></div>
                             <div class="title">
                                 <div class="icon">
                                     <i class="iconfont icon-jianjie"></i>
@@ -96,7 +161,8 @@
                             </div>
                             <div class="con"></div>
                         </div>
-                        <div id="link-3">
+                        <div class="link">
+                            <div class="link-wrap" id="link-3"></div>
                             <div class="title">
                                 <div class="icon">
                                     <i class="iconfont icon-dianping"></i>
@@ -104,17 +170,146 @@
 
                                 游客点评
                             </div>
-                            <div class="con"></div>
+                            <div class="con">
+                                <div class="comment-score flex-m">
+                                    <div class="text-c">
+                                        <div class="score">98%</div>
+                                        <div class="score-tips">
+                                            满意度
+                                        </div>
+                                        <div class="score-tips font-h">(好评+中评)/总评</div>
+                                    </div>
+                                    <div class="comment-rate">
+                                        <div class="flex-m">
+                                            好评率：<el-progress color="#f60" :percentage="50"></el-progress>
+
+                                        </div>
+                                        <div class="flex-m">
+                                            中评率：<el-progress color="#f60" :percentage="50"></el-progress>
+
+                                        </div>
+                                        <div class="flex-m">
+                                            差评率：<el-progress color="#f60" :percentage="50"></el-progress>
+
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div class="impression-tips">
+                                            游客印象
+                                        </div>
+                                        <div class="flex-m impression-list">
+                                            <div class="impression-item">
+                                                整体不错（58）
+                                            </div>
+                                            <div class="impression-item">
+                                                整体不错（58）
+                                            </div>
+                                            <div class="impression-item">
+                                                整体不错（58）
+                                            </div>
+                                            <div class="impression-item">
+                                                整体不错（58）
+                                            </div>
+                                            <div class="impression-item">
+                                                整体不错（58）
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="comment-tabs">
+                                    <el-radio v-model="commentType" label="1">全部（100）</el-radio>
+                                    <el-radio v-model="commentType" label="2">最新（500）</el-radio>
+                                    <el-radio v-model="commentType" label="3">好评（500）</el-radio>
+                                    <el-radio v-model="commentType" label="4">中评（500）</el-radio>
+                                    <el-radio v-model="commentType" label="5">差评（500）</el-radio>
+                                    <el-radio v-model="commentType" label="6">有图（500）</el-radio>
+                                </div>
+                                <div class="comment-list">
+                                    <div class="comment-list-items">
+                                        <div class="items-name flex-m">
+                                            <i class="iconfont icon-haoping"> </i>
+                                            <span class="marlr10">好评</span>
+                                            <span class="font-h">KK1021</span>
+                                        </div>
+                                        <div class="items-con">
+                                            去了苏州很多次，终于有一次可以去苏州园林逛逛了，很典型的苏式园林风格，慢慢走，慢慢悠，租个讲解慢慢听，很有意思
+                                        </div>
+                                        <div class="items-imgs flex-m">
+                                            <el-image @mouseover="handleMuseOver(require('@/assets/images/test.jpg'))"
+                                                :src="require('@/assets/images/test.jpg')"
+                                                :preview-src-list="[srcList[0]]">
+                                            </el-image>
+                                        </div>
+                                    </div>
+                                    <div class="comment-list-items">
+                                        <div class="items-name flex-m">
+                                            <i class="iconfont icon-zhongping"> </i>
+                                            <span class="marlr10">中评</span>
+                                            <span class="font-h">KK1021</span>
+                                        </div>
+                                        <div class="items-con">
+                                            去了苏州很多次，终于有一次可以去苏州园林逛逛了，很典型的苏式园林风格，慢慢走，慢慢悠，租个讲解慢慢听，很有意思
+                                        </div>
+                                    </div>
+                                    <div class="comment-list-items">
+                                        <div class="items-name flex-m">
+                                            <i class="iconfont icon-chaping"> </i>
+                                            <span class="marlr10">差评</span>
+                                            <span class="font-h">KK1021</span>
+                                        </div>
+                                        <div class="items-con">
+                                            去了苏州很多次，终于有一次可以去苏州园林逛逛了，很典型的苏式园林风格，慢慢走，慢慢悠，租个讲解慢慢听，很有意思
+                                        </div>
+                                    </div>
+                                    <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                                        :current-page="currentPage" :page-sizes="[20, 50, 100]" :page-size="20"
+                                        layout="total, sizes, prev, pager, next, jumper" :total="400">
+                                    </el-pagination>
+                                </div>
+                            </div>
                         </div>
-                        <div id="link-4">
+                        <div class="link">
+                            <div class="link-wrap" id="link-4"></div>
                             <div class="title">
                                 <div class="icon">
                                     <i class="iconfont icon-jiaotong"></i>
                                 </div>
-
                                 交通指南
                             </div>
-                            <div class="con"></div>
+                            <div class="con">
+                                <div id="allmap" ref="allmap"></div>
+                                <div class="traffic">
+                                    <div v-if="metroList.length || transitList.length" class="traffic-items">
+                                        <div class="traffic-txt">
+                                            <span class="font-bg">公</span> 公共交通
+                                        </div>
+                                        <div v-if="metroList.length" class="traffic-items-i">
+                                            ① {{metroList[0].title}}。
+                                        </div>
+                                        <div v-if="transitList.length" class="traffic-items-i">
+                                            ② {{transitList[0].title}}站：{{transitList[0].address}}。
+                                        </div>
+                                    </div>
+                                    <div class="traffic-items" v-if="parkingLotList.length">
+                                        <div class="traffic-txt">
+                                            <span class="font-bg">P</span> 周边停车场
+                                        </div>
+                                        <div class="traffic-items-i font-weight">
+                                            {{parkingLotList[0].title}}
+                                        </div>
+                                        <div class="traffic-items-i">
+                                            参考价：¥6/小时 库位：50
+                                        </div>
+                                        <div class="traffic-items-i">
+                                            地址：{{parkingLotList[0].address}}
+                                        </div>
+                                    </div>
+                                    <div class="tips">
+                                        以上信息仅供参考。
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,13 +357,78 @@
                     'https://pic5.40017.cn/02/000/ee/50/rBLkCFsFIJmAQzVcAAJL166pWRM537_540x304_00.jpg'
                 ],
                 activeIndex: 0,
-                isFixed: false
+                isFixed: false,
+                commentType: "1",
+                currentPage: 1,
+                transitList: [], // 公交
+                metroList: [], // 地铁
+                parkingLotList: [], // 停车场
+                title: ""
             }
         },
         mounted() {
             window.addEventListener("scroll", this.scrollEvent);
+            this.$nextTick(() => {
+                this.map()
+            })
         },
         methods: {
+            // 跳转订单页面
+            handleToOrder() {
+                this.$router.push({
+                    path: "/order",
+                    query: {
+                        id: 1
+                    }
+                })
+            },
+            // 加载地图
+            map() {
+                var map = new window.BMapGL.Map('allmap');
+                var point = new window.BMapGL.Point(116.35539, 39.981536);
+                map.centerAndZoom(point, 15);
+                var opts = {
+                    width: 200,
+                    height: 100,
+                    title: '故宫博物院'
+                };
+                var marker = new window.BMapGL.Marker(point); // 创建标注
+                map.addOverlay(marker); // 将标注添加到地图中
+                var infoWindow = new window.BMapGL.InfoWindow('地址：北京市东城区王府井大街88号乐天银泰百货八层', opts);
+                map
+                    .openInfoWindow(infoWindow, point);
+                marker.addEventListener("click", function () {
+                    map.openInfoWindow(infoWindow, point); //开启信息窗口
+                });
+                var local = new window.BMapGL.LocalSearch(map);
+                local.searchNearby(["公交", "地铁", "停车场"], point,
+                    500);
+                local.setSearchCompleteCallback(this.mySearchCompleteCallback);
+
+                map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+            },
+            // 获取周边公交地铁停车场
+            mySearchCompleteCallback(local) {
+                local.map((item) => {
+                    if (item.keyword == "公交") {
+                        this.transitList = item._pois
+                    }
+                    if (item.keyword == "地铁") {
+                        this.metroList = item._pois
+                    }
+                    if (item.keyword == "停车场") {
+                        this.parkingLotList = item._pois
+                    }
+                })
+            },
+            // 切换当前第几页
+            handleCurrentChange() {
+
+            },
+            // 切换一页显示条数
+            handleSizeChange() {
+
+            },
             // 监听滚动条
             scrollEvent() {
                 var scrollTop =
@@ -180,7 +440,10 @@
             // 锚点定位
             handleLink(dom, index) {
                 this.activeIndex = index
-                document.getElementById(dom).scrollIntoView(false)
+                document.getElementById(dom).scrollIntoView({
+                    behavior: "smooth",
+                    block: "start"
+                })
             },
             // 图片效果
             handleMuseOver(url) {
@@ -307,7 +570,7 @@
                 }
 
                 .order-btn {
-                    padding: 5px 20px;
+                    padding: 5px 30px;
                     font-size: 20px;
                     border-radius: 4px;
                     border: 1px solid @theme-color;
@@ -374,7 +637,7 @@
 
                 .con-tabs {
                     width: 100%;
-                    background: #3F4447;
+                    background: #666;
                     color: #fff;
                     height: 45px;
 
@@ -406,6 +669,16 @@
                 .con-cons {
                     padding: 20px;
 
+                    .link {
+                        position: relative;
+
+                        .link-wrap {
+                            position: absolute;
+                            top: -100px;
+                            left: 0;
+                        }
+                    }
+
                     &>div {
 
                         .title {
@@ -435,9 +708,194 @@
                         }
 
                         .con {
-                            height: 400px;
+                            min-height: 400px;
                             border-left: 3px solid #eceff2;
-                            padding: 0 20px;
+                            padding: 20px;
+                            font-size: 14px;
+
+                            .comment-score {
+                                padding: 0 40px;
+                                height: auto;
+
+                                .comment-rate {
+                                    font-size: 12px;
+                                    flex-shrink: 0;
+
+                                    &>div {
+                                        padding: 5px 0;
+                                    }
+                                }
+
+                                &>div {
+                                    margin-right: 30px;
+                                }
+
+                                &>div:last-child {
+                                    margin-right: 0;
+                                }
+
+                                .text-c {
+                                    text-align: center;
+                                }
+
+                                .el-progress {
+                                    width: 200px;
+
+                                    .el-progress__text {
+                                        font-size: 12px !important;
+                                        color: #f60;
+                                    }
+                                }
+
+
+                                .score {
+                                    color: #f60;
+                                    font-weight: bold;
+                                    font-size: 46px;
+                                }
+
+                                .score-tips,
+                                .impression-tips {
+                                    font-size: 12px;
+                                }
+
+                                .impression-list {
+                                    flex-wrap: wrap-reverse;
+                                }
+
+                                .impression-item {
+                                    padding: 2px 5px;
+                                    border-radius: 4px;
+                                    color: #f60;
+                                    border: 1px solid #f60;
+                                    font-size: 12px;
+                                    margin: 5px 5px 5px 0;
+                                }
+                            }
+
+                            .comment-tabs {
+                                margin: 20px;
+                                background: #f6f6f6;
+                                border-top: 1px solid #e5e5e5;
+                                padding: 10px;
+
+                                .el-radio {
+                                    margin-right: 10px;
+                                }
+                            }
+
+                            .comment-list {
+                                margin: 0 20px;
+
+                                .comment-list-items {
+                                    padding-bottom: 20px;
+                                    border-bottom: 1px solid #e5e5e5;
+                                    margin: 10px 0;
+
+                                    .items-name {
+                                        font-size: 14px;
+
+                                        .iconfont {
+                                            font-size: 28px;
+                                            font-weight: bold;
+                                        }
+
+                                        .icon-haoping {
+                                            color: #BD6040;
+                                        }
+
+                                        .icon-zhongping {
+                                            color: gold;
+                                        }
+
+                                        .icon-chaping {
+                                            color: #9A9591;
+                                        }
+                                    }
+
+                                    .items-imgs {
+                                        margin-top: 10px;
+
+                                        .el-image {
+                                            width: 100px;
+                                            height: 100px;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .font-h {
+                                color: #999;
+                            }
+
+                            #allmap {
+                                width: 100%;
+                                height: 400px;
+                            }
+
+                            .traffic {
+                                .traffic-txt {
+                                    color: #ff9b26;
+                                    border: 1px solid #ff9b26;
+                                    display: inline-block;
+                                    border-radius: 4px;
+                                    padding-right: 10px;
+                                    height: 20px;
+                                    line-height: 20px;
+
+                                    .font-bg {
+                                        display: inline-block;
+                                        background: #ff9b26;
+                                        color: #fff;
+                                        padding: 0 10px;
+                                    }
+                                }
+
+                                .traffic-items {
+                                    margin: 20px 0;
+
+                                    .traffic-items-i {
+                                        margin-top: 5px;
+                                    }
+                                }
+
+                                .tips {
+                                    color: #ff9b26;
+                                }
+                            }
+
+                            .notice {
+                                img {
+                                    width: 60px;
+                                }
+
+                                &>div {
+                                    text-align: center;
+                                    margin: 0 20px;
+                                }
+                            }
+
+                            .notice-tab {
+                                border: 1px solid #eceff2;
+                                margin-top: 20px;
+
+                                .notice-tab-title {
+                                    width: 200px;
+                                    text-align: center;
+
+                                }
+
+                                .tab-title {
+                                    border-left: 4px solid @theme-color;
+                                    padding: 0 10px;
+                                    font-weight: bold;
+                                }
+
+                                .notice-tab-con {
+                                    padding: 20px;
+                                    border-left: 1px solid #eceff2;
+                                }
+                            }
                         }
                     }
                 }

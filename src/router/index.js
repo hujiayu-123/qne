@@ -32,6 +32,13 @@ const routes = [
                 component: () => import(/* webpackChunkName: "detail" */ '../views/reception/detail.vue')
             },
             {
+                path: 'order',
+                meta: {
+                    title: '去哪儿-下单'
+                },
+                component: () => import(/* webpackChunkName: "order" */ '../views/reception/order.vue')
+            },
+            {
                 path: 'userInfo',
                 redirect: '/userInfo/user',
                 component: () => import(/* webpackChunkName: "userInfo" */ '../views/reception/userInfo/index.vue'),

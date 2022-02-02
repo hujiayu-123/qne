@@ -4,7 +4,7 @@ module.exports = {
     devServer: {
         proxy: {
             '/api': {
-                target: "https://3g7096967c.qicp.vip/",
+                target: "http://3g7096967c.qicp.vip:29355",
                 pathRewrite: {
                     '^/api': ""
                 }
