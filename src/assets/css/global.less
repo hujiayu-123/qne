@@ -62,6 +62,10 @@ img {
     margin: 10px 0;
 }
 
+.mart10 {
+    margin-top: 10px;
+}
+
 .mart5 {
     margin-top: 5px;
 }
@@ -107,7 +111,8 @@ img {
 
 .el-radio__input.is-checked .el-radio__inner,
 .el-checkbox__input.is-checked .el-checkbox__inner,
-.el-checkbox__input.is-indeterminate .el-checkbox__inner {
+.el-checkbox__input.is-indeterminate .el-checkbox__inner,
+.el-button--primary {
     border-color: @theme-color;
     background: @theme-color;
 }
@@ -117,7 +122,9 @@ img {
 }
 
 .el-radio__inner:hover,
-.el-checkbox__inner:hover {
+.el-checkbox__inner:hover,
+.el-button--primary:focus,
+.el-button--primary:hover {
     border-color: @theme-color;
 }
 
@@ -152,6 +159,14 @@ img {
 .el-select .el-input__inner:hover,
 .el-pagination__sizes .el-input .el-input__inner:hover,
 .el-textarea__inner:focus,
-.el-checkbox__input.is-focus .el-checkbox__inner {
+.el-checkbox__input.is-focus .el-checkbox__inner,
+.el-upload--picture-card:hover,
+.el-upload:focus {
     border-color: @theme-color;
+}
+
+.el-image-viewer__canvas {
+    img {
+        width: auto;
+    }
 }

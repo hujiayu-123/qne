@@ -192,12 +192,15 @@
                         cursor: pointer;
                         position: relative;
 
+                        img {
+                            transition: all .6s;
+                        }
+
                         &:hover {
                             box-shadow: 0 1px 10px rgba(0, 0, 0, .13);
 
                             img {
                                 transform: scale(1.5);
-                                transition: all .8s;
                             }
                         }
 

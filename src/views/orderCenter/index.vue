@@ -29,14 +29,14 @@
                         <router-link tag="div" to="/orderCenter/order" class="order-nav-item flex-m">
                             我的订单
                         </router-link>
-                        <router-link tag="div" to="/orderCenter/footprint" class="order-nav-item flex-m">
-                            我的足迹
-                        </router-link>
                         <router-link tag="div" to="/orderCenter/collection" class="order-nav-item flex-m">
                             我的收藏
                         </router-link>
                         <router-link tag="div" to="/orderCenter/evaluate" class="order-nav-item flex-m">
                             我的点评
+                        </router-link>
+                        <router-link tag="div" to="/orderCenter/footprint" class="order-nav-item flex-m">
+                            我的足迹
                         </router-link>
                     </div>
                 </div>

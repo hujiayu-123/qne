@@ -375,12 +375,20 @@
         methods: {
             // 跳转订单页面
             handleToOrder() {
-                this.$router.push({
-                    path: "/order",
-                    query: {
-                        id: 1
-                    }
-                })
+                let token = localStorage.getItem('token')
+                if (token) {
+                    this.$router.push({
+                        path: "/order",
+                        query: {
+                            id: 1
+                        }
+                    })
+                } else {
+                    this.$message({
+                        type: "warning",
+                        message: "登录后才可下单"
+                    })
+                }
             },
             // 加载地图
             map() {
@@ -760,7 +768,7 @@
                                 }
 
                                 .impression-list {
-                                    flex-wrap: wrap-reverse;
+                                    flex-wrap: wrap;
                                 }
 
                                 .impression-item {
@@ -920,10 +928,13 @@
                     cursor: pointer;
                     font-size: 14px;
 
+                    img {
+                        transition: all .6s;
+                    }
+
                     &:hover {
                         img {
                             transform: scale(1.2);
-                            transition: all .6s;
                         }
                     }
 
@@ -961,12 +972,6 @@
                     }
                 }
             }
-        }
-    }
-
-    .el-image-viewer__canvas {
-        img {
-            width: auto;
         }
     }
 </style>

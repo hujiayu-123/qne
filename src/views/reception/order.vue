@@ -81,7 +81,7 @@
                             <i class="iconfont icon-chenggong"></i>订单支付成功!
                         </div>
                         <div class="mart5">
-                            3s后返回首页
+                            {{second}}s后返回首页
                         </div>
 
                     </div>
@@ -176,7 +176,8 @@
                     }]
                 },
                 checked: false,
-                payment: "1"
+                payment: "1",
+                second: 4
             }
         },
         mounted() {
@@ -208,8 +209,25 @@
                         }
                     })
                 }
-                if (this.step != 3 && (this.step == 0 && index == 1)) {
+                if (this.step == 2) {
+                    this.handleCountDown()
+                }
+                if (this.step == 0 && index == 1) {
                     this.step++
+                } else if (this.step != 0) {
+                    this.step++
+                }
+            },
+            handleCountDown() {
+                this.second--
+                if (this.second == 0) {
+                    this.$router.push({
+                        path: '/'
+                    })
+                } else {
+                    setTimeout(() => {
+                        this.handleCountDown()
+                    }, 1000)
                 }
             }
         }
