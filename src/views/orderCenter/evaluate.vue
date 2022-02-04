@@ -1,6 +1,6 @@
 <template>
     <div class="orderCenter-evaluate">
-        <div class="list">
+        <div class="list" v-if="dataList.length">
             <div class="item flex-b">
                 <el-popconfirm title="确认要删除此条评价吗？" @confirm="handleDel">
                     <el-button>删除</el-button>
@@ -34,13 +34,19 @@
                 </div>
             </div>
         </div>
+        <Empty v-else />
     </div>
 </template>
 <script>
+    import Empty from "../../components/Empty";
     export default {
+        components: {
+            Empty
+        },
         data() {
             return {
-                srcList: ['https://pic5.40017.cn/01/001/ee/49/rBLkBVsFIJuADniIAAH1BNAsZPU157_540x304_00.jpg', ]
+                srcList: ['https://pic5.40017.cn/01/001/ee/49/rBLkBVsFIJuADniIAAH1BNAsZPU157_540x304_00.jpg', ],
+                dataList: []
             }
         },
         methods: {

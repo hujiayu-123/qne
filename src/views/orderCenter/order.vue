@@ -1,6 +1,6 @@
 <template>
     <div class="orderCenter-order">
-        <div class="list flex-m">
+        <div class="list flex-m" v-if="dataList.length">
             <div class="item">
                 <div class="img">
                     <img :src="require('@/assets/images/test.jpg')" alt="">
@@ -18,6 +18,7 @@
                 </div>
             </div>
         </div>
+        <Empty v-else />
         <el-dialog :visible.sync="dialogVisible" width="30%" :before-close="handleClose">
             <span slot="title" class="dialog-title">
                 <img :src="require('@/assets/images/eva-bg.jpg')" alt="">
@@ -42,7 +43,11 @@
     </div>
 </template>
 <script>
+    import Empty from "../../components/Empty";
     export default {
+        components: {
+            Empty
+        },
         data() {
             return {
                 dialogVisible: false,
@@ -52,7 +57,8 @@
                     rateValue: 5,
                     context: ""
                 },
-                fileList: []
+                fileList: [],
+                dataList: []
             }
         },
         methods: {

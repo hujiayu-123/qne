@@ -1,6 +1,6 @@
 <template>
     <div class="orderCenter-collection">
-        <div class="list flex-m">
+        <div class="list flex-m" v-if="dataList.length">
             <div class="item" @click="handleToDetail">
                 <div class="img">
                     <img :src="require('@/assets/images/test.jpg')" alt="">
@@ -14,13 +14,18 @@
                 </div>
             </div>
         </div>
+        <Empty v-else />
     </div>
 </template>
 <script>
+    import Empty from "../../components/Empty";
     export default {
+        components: {
+            Empty
+        },
         data() {
             return {
-
+                dataList: []
             }
         },
         methods: {
