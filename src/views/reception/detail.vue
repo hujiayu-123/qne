@@ -3,42 +3,33 @@
         <div class="detail">
             <div class="detail-info flex-b">
                 <div class="detail-info-img">
-                    <el-image class="img-big" :src="imgUrl"></el-image>
+                    <el-image class="img-big" :src="imgUrl?imgUrl:dataDetail.images[0]"></el-image>
                     <div class="img-list flex-b">
-                        <el-image @mouseover="handleMuseOver(require('@/assets/images/test.jpg'))"
-                            :src="require('@/assets/images/test.jpg')" :preview-src-list="[srcList[0]]">
-                        </el-image>
-                        <el-image @mouseover="handleMuseOver(require('@/assets/images/test1.jpg'))"
-                            :src="require('@/assets/images/test1.jpg')" :preview-src-list="[srcList[1]]">
-                        </el-image>
-                        <el-image @mouseover="handleMuseOver(require('@/assets/images/test2.jpg'))"
-                            :src="require('@/assets/images/test2.jpg')" :preview-src-list="[srcList[2]]">
-                        </el-image>
-                        <el-image @mouseover="handleMuseOver(require('@/assets/images/test3.jpg'))"
-                            :src="require('@/assets/images/test3.jpg')" :preview-src-list="[srcList[3]]">
+                        <el-image v-for="item in dataDetail.images.slice(0,4)" :key="item"
+                            @mouseover="handleMuseOver(item)" :src="item" :preview-src-list="[item]">
                         </el-image>
                         <div class="more-img flex-m">
                             更多相册
                             <i class="iconfont icon-xiangyou1"></i>
-                            <el-image :src="require('@/assets/images/test3.jpg')" :preview-src-list="srcList">
+                            <el-image :src="dataDetail.images[0]" :preview-src-list="dataDetail.images">
                             </el-image>
                         </div>
                     </div>
                 </div>
                 <div class="detail-info-des">
                     <div class="info-des-title">
-                        八大处公园
-                        <span class="font-color">AAAA景区</span>
+                        {{dataDetail.scenicName}}
+                        <span class="font-color">{{dataDetail.grade}}</span>
                     </div>
                     <div class="info-des-summ flex-m">
-                        山地佛教寺庙园林
-                        <div class="des-summ-label">
-                            祈福
-                        </div>
+                        {{dataDetail.summary}}
+                        <!-- <div class="des-summ-label">
+                            {{dataDetail.summary}}
+                        </div> -->
                     </div>
                     <div class="info-des-address">
                         <span class="des-title">景点地址：</span>
-                        北京西山风景区南麓八大处公园
+                        {{dataDetail.sceneryAddress}}
                         <span class="font-color" @click="handleLink('link-4',3)">
                             <i class="iconfont icon-ditu"></i>
                             地图
@@ -46,9 +37,7 @@
                     </div>
                     <div class="info-des-time">
                         <span class="des-title">开放时间：</span>
-                        <el-tooltip class="item" effect="light" content="Bottom Center 提示文字" placement="bottom">
-                            <el-button>3月16日至8月31日 06:00-18:30 <i class="iconfont icon-arrow_down"></i> </el-button>
-                        </el-tooltip>
+                        {{dataDetail.openTimeStart}} - {{dataDetail.openTimeEnd}}
                     </div>
                     <div class="info-des-eva">
                         <span class="des-title">精彩点评：</span>
@@ -63,8 +52,9 @@
                         马上下单
                     </div>
                     <div class="info-des-price flex-c">
-                        <div> <span class="font-25">￥</span><span class="font-40">45</span> 起 </div>
-                        <div class="font">票面价：<span class="text-onu">￥45</span></div>
+                        <div> <span class="font-25">￥</span><span class="font-40">{{dataDetail.ticketsAmount}}</span> 起
+                        </div>
+                        <div class="font">票面价：<span class="text-onu">￥{{dataDetail.ticketsAmount}}</span></div>
                     </div>
                 </div>
             </div>
@@ -159,7 +149,22 @@
 
                                 景点简介
                             </div>
-                            <div class="con"></div>
+                            <div class="con">
+                                <div v-if="dataDetail.descImages.length">
+                                    <div class="pdl20 marb20" v-for="(item,index) in dataDetail.descImages"
+                                        :key="index">
+                                        <div>
+                                            <img :src="item.image" alt="">
+                                        </div>
+                                        <div class="mart5">
+                                            {{item.desc}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    暂无简介
+                                </div>
+                            </div>
                         </div>
                         <div class="link">
                             <div class="link-wrap" id="link-3"></div>
@@ -313,28 +318,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="detail-con-r">
+                <div class="detail-con-r" v-if="dataDetail.rim.length">
                     <div class="con-r-title">
                         周边推荐
                     </div>
                     <div class="con-r-list">
-                        <div class="list-item">
+                        <div class="list-item" v-for="item in dataDetail.rim" :key="item.id"
+                            @click="handleToDetail(item.sceneryName)">
                             <div class="img-wrap">
-                                <img :src="require('@/assets/images/test.jpg')" alt="">
+                                <img :src="item.sceneryImg" alt="">
                             </div>
-                            <div class="item-name">古武当山景区</div>
-                            <div class="flex-b">
-                                <div class="price">￥40<span class="font-color">起</span></div>
-                                <div class="detail-btn">去看看</div>
-                            </div>
-                        </div>
-                        <div class="list-item">
-                            <div class="img-wrap">
-                                <img :src="require('@/assets/images/test.jpg')" alt="">
-                            </div>
-                            <div class="item-name">古武当山景区</div>
-                            <div class="flex-b">
-                                <div class="price">￥40<span class="font-color">起</span></div>
+                            <div class="item-name flex-b">
+                                <div class="name">{{item.sceneryName}}</div>
                                 <div class="detail-btn">去看看</div>
                             </div>
                         </div>
@@ -346,10 +341,11 @@
 
 </template>
 <script>
+    import api from "@/server/api.js";
     export default {
         data() {
             return {
-                imgUrl: require('@/assets/images/test.jpg'),
+                imgUrl: "",
                 srcList: [
                     'https://pic5.40017.cn/02/000/ee/50/rBLkCFsFIJyAME9fAAKS5I6DEEY886_540x304_00.jpg',
                     'https://pic5.40017.cn/01/001/ee/49/rBLkBVsFIJuADniIAAH1BNAsZPU157_540x304_00.jpg',
@@ -363,24 +359,53 @@
                 transitList: [], // 公交
                 metroList: [], // 地铁
                 parkingLotList: [], // 停车场
-                title: ""
+                title: "",
+                dataDetail: {}
             }
         },
         mounted() {
             window.addEventListener("scroll", this.scrollEvent);
-            this.$nextTick(() => {
-                this.map()
-            })
+            this.getDataList()
         },
         methods: {
+            // 跳转详情
+            handleToDetail(id) {
+                let routeUrl = this.$router.resolve({
+                    path: "/detail",
+                    query: {
+                        id: id
+                    }
+                });
+                window.open(routeUrl.href, "_blank");
+            },
+            // 获取详情数据
+            getDataList() {
+                let param = {
+                    scenicName: this.$route.query.id
+                }
+                api.getScenicDetail(param).then((res) => {
+                    if (res.code == "0") {
+                        this.dataDetail = res.data
+                        this.$nextTick(() => {
+                            this.map()
+                        })
+                    }
+                })
+            },
             // 跳转订单页面
             handleToOrder() {
                 let token = localStorage.getItem('token')
                 if (token) {
+                    let detail = {
+                        scenicName: this.dataDetail.scenicName,
+                        sceneryImgPath: this.dataDetail.sceneryImgPath,
+                        ticketsAmount: this.dataDetail.ticketsAmount,
+                        id: this.dataDetail.id,
+                    }
                     this.$router.push({
                         path: "/order",
                         query: {
-                            id: 1
+                            detail: encodeURI(JSON.stringify(detail))
                         }
                     })
                 } else {
@@ -392,17 +417,23 @@
             },
             // 加载地图
             map() {
+                let {
+                    latitude,
+                    longitude,
+                    scenicName,
+                    sceneryAddress
+                } = this.dataDetail
                 var map = new window.BMapGL.Map('allmap');
-                var point = new window.BMapGL.Point(116.35539, 39.981536);
+                var point = new window.BMapGL.Point(longitude, latitude);
                 map.centerAndZoom(point, 15);
                 var opts = {
                     width: 200,
                     height: 100,
-                    title: '故宫博物院'
+                    title: scenicName
                 };
                 var marker = new window.BMapGL.Marker(point); // 创建标注
                 map.addOverlay(marker); // 将标注添加到地图中
-                var infoWindow = new window.BMapGL.InfoWindow('地址：北京市东城区王府井大街88号乐天银泰百货八层', opts);
+                var infoWindow = new window.BMapGL.InfoWindow('地址：' + sceneryAddress, opts);
                 map
                     .openInfoWindow(infoWindow, point);
                 marker.addEventListener("click", function () {
@@ -922,7 +953,6 @@
 
                 .list-item {
                     margin-top: 10px;
-                    padding-bottom: 10px;
                     border: 1px solid #f0f0f0;
                     box-sizing: border-box;
                     cursor: pointer;
@@ -958,12 +988,19 @@
                         font-size: 18px;
                     }
 
+                    .name {
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+
                     .detail-btn {
                         font-size: 12px;
                         background: @theme-color;
                         color: #fff;
                         padding: 1px 10px;
                         border-radius: 4px;
+                        flex-shrink: 0;
                     }
 
                     .font-color {

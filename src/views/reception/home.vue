@@ -28,7 +28,7 @@
                         </div>
                         <div class="item-list flex-b">
                             <div class="item-box" v-for="item in homeList[i.key]" :key="item.id"
-                                @click="handleToDetail(item.id)">
+                                @click="handleToDetail(item.scenicName)">
                                 <div class="item-box-img">
                                     <img :src="item.sceneryImgPath" alt="item.sceneryAddress">
                                 </div>

@@ -41,7 +41,7 @@
                             <el-form-item prop="email">
                                 <el-input placeholder="邮箱" v-model="ruleForm2.email"></el-input>
                             </el-form-item>
-                            <el-form-item prop="remark">
+                            <el-form-item>
                                 <el-input placeholder="备注" type="textarea" v-model="ruleForm2.remark"></el-input>
                             </el-form-item>
                         </el-form>
@@ -87,9 +87,9 @@
                     </div>
                 </div>
                 <div class="order-r">
-                    <img :src="require('@/assets/images/test.jpg')" alt="">
+                    <img :src="detail.sceneryImgPath" alt="">
                     <div class="order-con">
-                        测试
+                        {{detail.scenicName}}
                         <div class="order-info">
                             <div class="flex-b">
                                 <div class="font-h">出行日期</div>
@@ -125,8 +125,29 @@
     </div>
 </template>
 <script>
+    import api from "@/server/api.js";
     export default {
         data() {
+            var valiphone1 = (rule, value, callback) => {
+                let myreg = /^[1][3,4,5,7,8][0-9]{9}$/; // 验证手机号是否正确
+                if (value === '') {
+                    callback(new Error('请输入手机号码'));
+                } else if (!myreg.test(value)) {
+                    callback(new Error('请输入正确的手机号'));
+                } else {
+                    callback();
+                }
+            };
+            var valiphone2 = (rule, value, callback) => {
+                let myreg = /^[1][3,4,5,7,8][0-9]{9}$/; // 验证手机号是否正确
+                if (value === '') {
+                    callback(new Error('请输入手机号码'));
+                } else if (!myreg.test(value)) {
+                    callback(new Error('请输入正确的手机号'));
+                } else {
+                    callback();
+                }
+            };
             return {
                 step: 0,
                 ruleForm1: {
@@ -154,7 +175,7 @@
                     }],
                     phone: [{
                         required: true,
-                        message: '请输入手机号码',
+                        validator: valiphone1,
                         trigger: 'blur'
                     }],
                     date: [{
@@ -171,21 +192,32 @@
                     }],
                     phone: [{
                         required: true,
-                        message: '请输入证件号码',
+                        validator: valiphone2,
                         trigger: 'blur'
-                    }]
+                    }],
+                    email: [{
+                            required: true,
+                            message: '请输入邮箱地址',
+                            trigger: 'blur'
+                        },
+                        {
+                            type: 'email',
+                            message: '请输入正确的邮箱地址',
+                            trigger: ['blur', 'change']
+                        }
+                    ]
                 },
                 checked: false,
                 payment: "1",
-                second: 4
+                second: 4,
+                detail: {}
             }
         },
         mounted() {
-
+            this.detail = JSON.parse(decodeURI(this.$route.query.detail))
         },
         methods: {
             handleNext() {
-                var index = 0
                 if (this.step == 0) {
                     this.$refs.ruleForm1.validate(valid => {
                         if (valid) {
@@ -198,23 +230,29 @@
                                         })
                                         return
                                     }
-                                    console.log(this.ruleForm1, this.ruleForm2)
-                                    index = 1
-                                } else {
-                                    index = 0
+                                    let params = {
+                                        sericId: this.detail.id,
+                                        cxr: JSON.stringify(this.ruleForm1),
+                                        amount: this.detail.ticketsAmount,
+                                        user: this.ruleForm2.name,
+                                        status: 1
+                                    }
+                                    console.log(params)
+                                    api.creatOrder(params).then((res) => {
+                                        if (res.code == "0") {
+                                            // this.step++
+                                            console.log(res)
+                                        }
+                                    })
                                 }
                             })
-                        } else {
-                            index = 0
                         }
                     })
                 }
                 if (this.step == 2) {
                     this.handleCountDown()
                 }
-                if (this.step == 0 && index == 1) {
-                    this.step++
-                } else if (this.step != 0) {
+                if (this.step != 0) {
                     this.step++
                 }
             },

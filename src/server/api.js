@@ -22,6 +22,18 @@ const api = {
     getScenicAll(params) {
         return axios.get('/api/getScenicAll?' + qs.stringify(params))
     },
+    // 获取景点详情
+    getScenicDetail(params) {
+        return axios.get('/api/getScenicDetail?' + qs.stringify(params))
+    },
+    // 下单
+    creatOrder(data) {
+        return axios.post('/api/creatOrder', data)
+    },
+    // 订单列表
+    getOrderList() {
+        return axios.get('/api/getOrderList')
+    },
     // 获取用户列表
     getUserAll() {
         return axios.get('/api/getUserAll')

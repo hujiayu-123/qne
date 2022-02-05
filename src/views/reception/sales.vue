@@ -1,7 +1,7 @@
 <template>
     <div class="sales">
         <div class="sales-tabs flex-m">
-            <div :class="filterParams.grade==''?'tab-active':''" @click="handleGrade('')">全部</div>
+            <div :class="filterParams.grade==0?'tab-active':''" @click="handleGrade('')">全部</div>
             <div v-for="item in typeList" :key="item.value" :class="item.value==filterParams.grade?'tab-active':''"
                 @click="handleGrade(item.value)">
                 {{item.name}}
@@ -67,7 +67,7 @@
                     </div>
                     <div class="list-l-con">
                         <div class="list-l-con-item flex-m" v-for="item in dataList" :key="item.id"
-                            @click="handleToDetail(item.id)">
+                            @click="handleToDetail(item.scenicName)">
                             <img :src="item.sceneryImgPath" alt="">
                             <div class="item-info">
                                 <div class="count">已售5000</div>
@@ -209,7 +209,7 @@
                 this.filterParams.sort = val
                 this.priceSort = ""
             },
-            // 调整详情
+            // 跳转详情
             handleToDetail(id) {
                 let routeUrl = this.$router.resolve({
                     path: "/detail",
