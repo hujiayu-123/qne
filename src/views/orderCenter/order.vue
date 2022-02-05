@@ -43,6 +43,7 @@
     </div>
 </template>
 <script>
+    import api from "@/server/api.js";
     import Empty from "../../components/Empty";
     export default {
         components: {
@@ -61,7 +62,17 @@
                 dataList: []
             }
         },
+        mounted() {
+            this.getDataList()
+        },
         methods: {
+            getDataList() {
+                api.getOrderList().then((res) => {
+                    if (res.code == "0") {
+                        this.dataList = res.data
+                    }
+                })
+            },
             // 评价
             handleEva() {
                 let {
