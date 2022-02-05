@@ -2,7 +2,7 @@
     <div class="detail-wrap">
         <div class="detail">
             <div class="detail-info flex-b">
-                <div class="detail-info-img">
+                <div class="detail-info-img" v-if="dataDetail.images.length">
                     <el-image class="img-big" :src="imgUrl?imgUrl:dataDetail.images[0]"></el-image>
                     <div class="img-list flex-b">
                         <el-image v-for="item in dataDetail.images.slice(0,4)" :key="item"
@@ -15,6 +15,9 @@
                             </el-image>
                         </div>
                     </div>
+                </div>
+                <div class="detail-info-img flex-c no-img" v-else>
+                    暂无上传图片
                 </div>
                 <div class="detail-info-des">
                     <div class="info-des-title">
@@ -161,7 +164,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div v-else>
+                                <div class="no-des" v-else>
                                     暂无简介
                                 </div>
                             </div>
@@ -550,6 +553,11 @@
 
             }
 
+            .no-img {
+                margin-top: 10%;
+                color: #999;
+            }
+
             .detail-info-des {
                 width: 53%;
                 font-size: 14px;
@@ -751,6 +759,11 @@
                             border-left: 3px solid #eceff2;
                             padding: 20px;
                             font-size: 14px;
+
+                            .no-des {
+                                padding: 20px;
+                                color: #999;
+                            }
 
                             .comment-score {
                                 padding: 0 40px;

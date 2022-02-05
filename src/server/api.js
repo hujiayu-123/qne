@@ -2,6 +2,7 @@ import axios from './request'
 import qs from 'qs'
 
 const api = {
+    url: "http://3g7096967c.qicp.vip:29355",
     // 获取首页列表
     homeList() {
         return axios.get('/api/getScenic')

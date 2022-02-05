@@ -100,7 +100,7 @@
                 //     if (res.code === 200) {
                 //         let obj = {
                 //             name: file.file.name,
-                //             url: "https://3g7096967c.qicp.vip/" + res.data
+                //             url: api.url + res.data
                 //         };
                 //         this.fileList.push(obj);
                 //     }

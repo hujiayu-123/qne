@@ -35,6 +35,9 @@
                             <el-form-item prop="name">
                                 <el-input placeholder="中文姓名" v-model="ruleForm2.name"></el-input>
                             </el-form-item>
+                            <el-form-item prop="idNumber">
+                                <el-input placeholder="证件号码" v-model="ruleForm2.idNumber"></el-input>
+                            </el-form-item>
                             <el-form-item prop="phone">
                                 <el-input placeholder="联系电话" v-model.number="ruleForm2.phone"></el-input>
                             </el-form-item>
@@ -53,7 +56,7 @@
                         </div>
                         <div class="mart20">
                             <span>订单号：</span>
-                            82586002022020230540870
+                            {{orderId}}
                         </div>
                         <div class="mart20">
                             <span>应付金额：</span>
@@ -104,13 +107,13 @@
                 <div class="flex-b mart5">
                     <div>使用商家优惠券</div>
                     <div>产品金额：
-                        <span class="wd100">￥40</span>
+                        <span class="wd100">￥{{detail.ticketsAmount}}</span>
                     </div>
                 </div>
                 <div class="flex-b mart5">
                     <div>使用去哪儿优惠券</div>
                     <div>支付总金额：
-                        <span class="wd100 total-money"><span class="font-small">￥</span>40</span>
+                        <span class="wd100 total-money"><span class="font-small">￥</span>{{detail.ticketsAmount}}</span>
                     </div>
                 </div>
             </div>
@@ -159,6 +162,7 @@
                 ruleForm2: {
                     name: "",
                     phone: "",
+                    idNumber: "",
                     email: "",
                     remark: ""
                 },
@@ -188,6 +192,11 @@
                     name: [{
                         required: true,
                         message: '请输入中文姓名',
+                        trigger: 'blur'
+                    }],
+                    idNumber: [{
+                        required: true,
+                        message: '请输入证件号码',
                         trigger: 'blur'
                     }],
                     phone: [{
@@ -230,18 +239,22 @@
                                         })
                                         return
                                     }
+                                    let cxr = {
+                                        name: this.ruleForm1.name,
+                                        idNumber: this.ruleForm1.idNumber,
+                                        phone: this.ruleForm1.phone
+                                    }
                                     let params = {
                                         sericId: this.detail.id,
-                                        cxr: JSON.stringify(this.ruleForm1),
+                                        cxr: JSON.stringify(cxr),
                                         amount: this.detail.ticketsAmount,
-                                        user: this.ruleForm2.name,
-                                        status: 1
+                                        user: JSON.stringify(this.ruleForm2),
+                                        status: "1"
                                     }
-                                    console.log(params)
                                     api.creatOrder(params).then((res) => {
                                         if (res.code == "0") {
-                                            // this.step++
-                                            console.log(res)
+                                            this.step++
+                                            this.orderId = res.data
                                         }
                                     })
                                 }
