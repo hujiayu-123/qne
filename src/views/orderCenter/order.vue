@@ -1,19 +1,19 @@
 <template>
     <div class="orderCenter-order">
         <div class="list flex-m" v-if="dataList.length">
-            <div class="item">
+            <div class="item" v-for="item in dataList" :key="item.id">
                 <div class="img">
-                    <img :src="require('@/assets/images/test.jpg')" alt="">
+                    <img :src="item.dataValues.sceneryImgPath" alt="">
                 </div>
                 <div class="con">
-                    <div class="name">古武当山景区</div>
+                    <div class="name">{{item.dataValues.scenicName}}</div>
                     <div class="date flex-b">
                         <div class="font-h">出行日期</div>
-                        <div>2022-01-04</div>
+                        <div>{{item.dataValues.date}}</div>
                     </div>
                     <div class="money flex-b">
-                        <div class="num">￥40</div>
-                        <div class="btn" @click="handleShowEvaDialog">去评价</div>
+                        <div class="num">￥{{item.dataValues.amount}}</div>
+                        <div class="btn" @click="handleShowEvaDialog(item.id,item.sericId)">去评价</div>
                     </div>
                 </div>
             </div>
@@ -24,7 +24,7 @@
                 <img :src="require('@/assets/images/eva-bg.jpg')" alt="">
             </span>
             <span>
-                <el-rate show-text :texts="texts" v-model="formValue.rateValue" :colors="colors">
+                <el-rate show-text :texts="texts" v-model="formValue.rate" :colors="colors">
                 </el-rate>
                 <el-input class="mart10" :rows="3" type="textarea" placeholder="评价内容" v-model="formValue.context"
                     maxlength="100" show-word-limit>
@@ -55,7 +55,9 @@
                 colors: ['#99A9BF', '#F7BA2A', '#FF9900'],
                 texts: ["差评", "差评", "中评", "好评", "好评"],
                 formValue: {
-                    rateValue: 5,
+                    orderId: "",
+                    sericId: "",
+                    rate: 5,
                     context: ""
                 },
                 fileList: [],
@@ -85,7 +87,24 @@
                     })
                     return
                 }
-
+                let params = this.formValue
+                params.image = []
+                this.fileList.map((item) => {
+                    params.image.push(item.url)
+                })
+                if (params.rate >= 1 && params.rate <= 2) {
+                    params.rate = 1
+                } else if (params.rate == 3) {
+                    params.rate = 2
+                } else if (params.rate >= 4 && params.rate <= 5) {
+                    params.rate = 3
+                }
+                api.createComment(params).then((res) => {
+                    if (res.code == "0") {
+                        this.handleClose()
+                        this.getDataList()
+                    }
+                })
             },
             // 删除图片
             handleRemove(file, fileList) {
@@ -93,18 +112,17 @@
             },
             // 上传图片
             handleProgress(file) {
-                console.log(file.file)
-                // let formData = new FormData();
-                // formData.append("file", file.file);
-                // api.upload(formData).then(res => {
-                //     if (res.code === 200) {
-                //         let obj = {
-                //             name: file.file.name,
-                //             url: api.url + res.data
-                //         };
-                //         this.fileList.push(obj);
-                //     }
-                // });
+                let formData = new FormData();
+                formData.append("file", file.file);
+                api.upload(formData).then(res => {
+                    if (res.code == "0") {
+                        let obj = {
+                            name: file.file.name,
+                            url: api.url + res.data
+                        };
+                        this.fileList.push(obj);
+                    }
+                });
             },
             fileChange() {
                 /**
@@ -113,7 +131,9 @@
                 this.$refs.upload.clearFiles();
             },
             // 打开弹窗
-            handleShowEvaDialog() {
+            handleShowEvaDialog(orderId, sericId) {
+                this.formValue.orderId = orderId
+                this.formValue.sericId = sericId
                 this.dialogVisible = true
             },
             // 关闭弹窗
@@ -189,6 +209,11 @@
             color: #fff;
             text-align: center;
             cursor: pointer;
+        }
+
+        .el-upload-list--picture-card .el-upload-list__item {
+            width: 100px;
+            height: 100px;
         }
 
         .el-upload--picture-card {

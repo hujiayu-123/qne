@@ -34,6 +34,7 @@ class HttpRequest {
     interceptors(instance) {
         //发送数据的请求拦截器
         instance.interceptors.request.use(function (config) {
+           config.url=`http://3g7096967c.qicp.vip:29355${config.url}`
             loadingInstance = Loading.service({
                 text: '加载中',
                 background: 'rgba(0, 0, 0, 0.6)'

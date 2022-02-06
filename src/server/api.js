@@ -2,7 +2,7 @@ import axios from './request'
 import qs from 'qs'
 
 const api = {
-    url: "http://3g7096967c.qicp.vip:29355",
+    url: "http://3g7096967c.qicp.vip:29355/",
     // 获取首页列表
     homeList() {
         return axios.get('/api/getScenic')
@@ -34,6 +34,18 @@ const api = {
     // 订单列表
     getOrderList() {
         return axios.get('/api/getOrderList')
+    },
+    // 支付
+    pcpay(data) {
+        return axios.post('/api/pcpay', data)
+    },
+    // 上传图片
+    upload(data) {
+        return axios.post('/api/upload', data)
+    },
+    // 评价
+    createComment(data) {
+        return axios.post('/api/createComment', data)
     },
     // 获取用户列表
     getUserAll() {

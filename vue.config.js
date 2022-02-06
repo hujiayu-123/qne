@@ -2,14 +2,13 @@ const path = require('path')
 
 module.exports = {
     devServer: {
-        proxy: {
-            '/api': {
-                target: "http://3g7096967c.qicp.vip:29355",
-                pathRewrite: {
-                    '^/api': ""
-                }
-            }
-        }
+        // proxy: {
+        //     '/api': {
+        //         target: "http://3g7096967c.qicp.vip:29355",
+               
+        //     }
+        // },
+        disableHostCheck: true
     },
     pluginOptions: {
         "style-resources-loader": {

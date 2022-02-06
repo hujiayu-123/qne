@@ -61,7 +61,7 @@
                         <div class="mart20">
                             <span>应付金额：</span>
                             <span class="font-big">
-                                <span class="font-small">￥</span>40.00
+                                <span class="font-small">￥</span>{{detail.ticketsAmount}}
                             </span>
                         </div>
                         <div class="step-2-title">
@@ -219,7 +219,8 @@
                 checked: false,
                 payment: "1",
                 second: 4,
-                detail: {}
+                detail: {},
+                orderId: ""
             }
         },
         mounted() {
@@ -249,7 +250,8 @@
                                         cxr: JSON.stringify(cxr),
                                         amount: this.detail.ticketsAmount,
                                         user: JSON.stringify(this.ruleForm2),
-                                        status: "1"
+                                        status: "1",
+                                        date: this.ruleForm1.date
                                     }
                                     api.creatOrder(params).then((res) => {
                                         if (res.code == "0") {
@@ -262,12 +264,32 @@
                         }
                     })
                 }
+                if (this.step == 1) {
+                    if (this.payment == "2") {
+                        this.$message({
+                            type: "warning",
+                            message: "该功能暂未开发 ~~"
+                        })
+                        return
+                    }
+                    let params = {
+                        uuid: new Date().getTime(),
+                        amount: this.detail.ticketsAmount,
+                        scenicId: this.detail.id,
+                        orderId: this.orderId
+                    }
+                    api.pcpay(params).then((res) => {
+                        if (res.code == "0") {
+                            window.location.href = res.data
+                        }
+                    })
+                }
                 if (this.step == 2) {
                     this.handleCountDown()
                 }
-                if (this.step != 0) {
-                    this.step++
-                }
+                // if (this.step != 0 && (this.step != 1) {
+                //     this.step++
+                // }
             },
             handleCountDown() {
                 this.second--
