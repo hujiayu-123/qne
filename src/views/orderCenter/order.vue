@@ -3,17 +3,20 @@
         <div class="list flex-m" v-if="dataList.length">
             <div class="item" v-for="item in dataList" :key="item.id">
                 <div class="img">
-                    <img :src="item.dataValues.sceneryImgPath" alt="">
+                    <img :src="item.detail&&item.detail.sceneryImgPath" alt="">
                 </div>
                 <div class="con">
-                    <div class="name">{{item.dataValues.scenicName}}</div>
+                    <div class="name">{{item.detail&&item.detail.scenicName}}</div>
                     <div class="date flex-b">
                         <div class="font-h">出行日期</div>
-                        <div>{{item.dataValues.date}}</div>
+                        <div>{{item.date}}</div>
                     </div>
                     <div class="money flex-b">
-                        <div class="num">￥{{item.dataValues.amount}}</div>
-                        <div class="btn" @click="handleShowEvaDialog(item.id,item.sericId)">去评价</div>
+                        <div class="num">￥{{item.amount}}</div>
+                        <div class="font-h" v-if="item.type==1">
+                            已评价
+                        </div>
+                        <div v-else class="btn" @click="handleShowEvaDialog(item.id,item.sericId)">去评价</div>
                     </div>
                 </div>
             </div>
@@ -87,7 +90,8 @@
                     })
                     return
                 }
-                let params = this.formValue
+                let params = JSON.stringify(this.formValue)
+                params = JSON.parse(params)
                 params.image = []
                 this.fileList.map((item) => {
                     params.image.push(item.url)
@@ -99,7 +103,10 @@
                 } else if (params.rate >= 4 && params.rate <= 5) {
                     params.rate = 3
                 }
-                api.createComment(params).then((res) => {
+                api.createComment({
+                    ...params,
+                    type: "1"
+                }).then((res) => {
                     if (res.code == "0") {
                         this.handleClose()
                         this.getDataList()
@@ -172,6 +179,11 @@
                     .num {
                         color: #ff685d;
                         font-size: 18px;
+                    }
+
+                    .font-h {
+                        color: #999;
+                        font-size: 12px;
                     }
 
                     .btn {

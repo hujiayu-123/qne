@@ -1,7 +1,7 @@
 <template>
     <div class="sales">
         <div class="sales-tabs flex-m">
-            <div :class="filterParams.grade==0?'tab-active':''" @click="handleGrade('')">全部</div>
+            <div :class="filterParams.grade==''?'tab-active':''" @click="handleGrade('')">全部</div>
             <div v-for="item in typeList" :key="item.value" :class="item.value==filterParams.grade?'tab-active':''"
                 @click="handleGrade(item.value)">
                 {{item.name}}
@@ -184,6 +184,7 @@
             handleGrade(val) {
                 this.filterParams.grade = val
                 this.dataList = []
+                this.filterParams.pageNum = 1
                 this.getList()
             },
             // 获取城市数据
@@ -197,6 +198,7 @@
             handleCity(val) {
                 this.filterParams.cityName = val
                 this.dataList = []
+                this.filterParams.pageNum = 1
                 this.getList()
             },
             // 价格排序

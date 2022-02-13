@@ -47,6 +47,10 @@ const api = {
     createComment(data) {
         return axios.post('/api/createComment', data)
     },
+    // 获取景点评价
+    getComment(params) {
+        return axios.get('/api/getComment?' + qs.stringify(params))
+    },
     // 获取用户列表
     getUserAll() {
         return axios.get('/api/getUserAll')

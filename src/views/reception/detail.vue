@@ -363,7 +363,8 @@
                 metroList: [], // 地铁
                 parkingLotList: [], // 停车场
                 title: "",
-                dataDetail: {}
+                dataDetail: {},
+                commentList: [] // 评价数据
             }
         },
         mounted() {
@@ -389,9 +390,20 @@
                 api.getScenicDetail(param).then((res) => {
                     if (res.code == "0") {
                         this.dataDetail = res.data
+                        this.getComment()
                         this.$nextTick(() => {
                             this.map()
                         })
+                    }
+                })
+            },
+            // 获取评价数据
+            getComment() {
+                api.getComment({
+                    sericId: this.dataDetail.id
+                }).then((res) => {
+                    if (res.code == "0") {
+                        this.commentList = res.data
                     }
                 })
             },

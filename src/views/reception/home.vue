@@ -8,7 +8,7 @@
             </el-carousel>
             <div class="search">
                 <div class="type-radio">
-                    <el-radio v-model="type" :label="0">全部</el-radio>
+                    <el-radio v-model="type" :label="''">全部</el-radio>
                     <el-radio v-for="(item,index) in typeList" :key="index" v-model="type" :label="item.value">
                         {{item.name}}</el-radio>
                 </div>
@@ -91,7 +91,7 @@
             return {
                 swiperHeight: "0px",
                 keyword: "",
-                type: 0,
+                type: "",
                 homeList: {},
                 typeList: typeList
             }
